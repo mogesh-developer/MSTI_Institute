@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Portal | MSTI</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* --- 1. Variables & Global Reset --- */
+    :root {
+      --primary: #0f172a;       
+      --primary-light: #1e293b; 
+      --accent: #2563eb;        
+      --accent-glow: rgba(37, 99, 235, 0.15);
+      --success: #10b981;
+      --bg-body: #f8fafc;
+      --white: #ffffff;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      
+      --radius: 20px;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* --- 2. Floating Navbar --- */
+    nav {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 1400px;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50px;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo img { height: 40px; width: auto; }
+    .logo span { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+
+    .nav-actions .btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .btn-logout {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .btn-logout:hover {
+      background: #dc2626;
+      color: white;
+    }
+
+    /* --- 3. Main Dashboard Area --- */
+    .dashboard-wrapper {
+      padding-top: 120px; /* Space for nav */
+      padding-bottom: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header-section h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .header-section p { color: var(--text-muted); }
+
+    /* Grid Layout for User Cards */
+    .user-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    /* User Card Style */
+    .user-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    /* User Header inside card */
+    .user-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .avatar {
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .user-details h2 { font-size: 1.1rem; margin: 0; }
+    .user-details span { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+    /* Courses List (Tags style) */
+    .course-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .course-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag i { color: var(--accent); font-size: 0.8rem; }
+
+    /* Empty State in Card */
+    .no-courses {
+      font-style: italic;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    /* Global Empty State */
+    .empty-dashboard {
+      text-align: center;
+      padding: 4rem;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    /* Background Blobs */
+    .bg-shape { position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; }
+    .shape-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: rgba(37, 99, 235, 0.15); }
+    .shape-2 { bottom: 20%; right: -5%; width: 400px; height: 400px; background: rgba(245, 158, 11, 0.1); }
+
+    @media (max-width: 768px) {
+      .header-section h1 { font-size: 2rem; }
+      nav { padding: 0.8rem 1rem; width: 95%; }
+      .logo span { display: none; } /* Hide text logo on small mobile to save space */
+      .logo img { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+
+  <nav>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/maha.png') }}" alt="Admin Logo" />
+      <span>MSTI Admin</span>
+    </div>
+    <div class="nav-actions">
+      <a href="{{ url_for('admin_logout') }}" class="btn btn-logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+  <div class="dashboard-wrapper">
+    <div class="header-section">
+      <h1>Student Management</h1>
+      <p>Overview of registered users and their course enrollments</p>
+    </div>
+
+    {% if users %}
+      <div class="user-grid">
+        {% for user in users %}
+          <div class="user-card">
+            <div class="user-header">
+              <div class="avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="user-details">
+                <h2>{{ user.username }}</h2>
+                <span>Student</span>
+              </div>
+            </div>
+
+            <div>
+              <span class="course-label">Enrolled Programs</span>
+              {% if user.applied_courses %}
+                <div class="course-tags">
+                  {% for c in user.applied_courses %}
+                    <span class="tag"><i class="fas fa-check-circle"></i> {{ c }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="no-courses">No active enrollments</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-dashboard">
+        <i class="fas fa-users-slash" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+        <h3>No Users Found</h3>
+        <p style="color: #64748b;">There are currently no registered users in the system.</p>
+      </div>
+    {% endif %}
+
+  </div>
+
+</body>
+</html>

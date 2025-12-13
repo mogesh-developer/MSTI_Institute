@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maharishi Skill Training Institute</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- 1. Variables & Global Reset --- */
+    :root {
+      /* Palette */
+      --primary: #0f172a;       /* Dark Slate */
+      --primary-light: #1e293b; 
+      --accent: #2563eb;        /* Royal Blue */
+      --accent-dark: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.4);
+      --gold: #f59e0b;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-body: #f8fafc;
+      --white: #ffffff;
+      
+      /* Shapes & Effects */
+      --glass: rgba(255, 255, 255, 0.9);
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+      --radius: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      /* Subtle pattern */
+      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.025em;
+    }
+
+    a { text-decoration: none; transition: all 0.3s ease; }
+
+    /* --- 2. FLOATING NAVIGATION --- */
+    nav {
+      position: fixed;
+      top: 15px; /* Floating effect */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 1400px;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50px; /* Pill shape */
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+    }
+
+    /* Scrolled State */
+    nav.scrolled {
+      top: 0;
+      width: 100%;
+      border-radius: 0;
+      padding: 0.8rem 5%;
+      background: rgba(255, 255, 255, 0.95);
+    }
+    
+    /* Smart Hide on Scroll Down */
+    nav.nav-hidden { transform: translate(-50%, -150%); }
+
+    .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo img { height: 42px; width: auto; transition: transform 0.3s; }
+    .logo:hover img { transform: rotate(-5deg); }
+    .logo span { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+
+    /* Menu Items */
+    .nav-menu { display: flex; list-style: none; gap: 30px; align-items: center; }
+    
+    .nav-link {
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    /* Animated Underline */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .nav-link:hover { color: var(--accent); }
+
+    /* Buttons */
+    .btn {
+      padding: 0.7rem 1.6rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .btn-login { 
+      color: var(--text-main); 
+      background: transparent; 
+    }
+    .btn-login:hover { color: var(--accent); background: rgba(37, 99, 235, 0.05); }
+
+    .btn-signup {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Hamburger */
+    .hamburger { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary); }
+
+    /* --- 3. HERO SECTION --- */
+    .hero {
+      position: relative;
+      height: 95vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      /* Background Image */
+      background: url('static/images/bammer.jpg') no-repeat center center/cover;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    /* Overlay Gradient */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.7) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: white;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    
+    .hero h1 span {
+      background: linear-gradient(120deg, #60a5fa 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* --- 4. CARDS SECTION --- */
+    .section-padding { padding: 6rem 5%; position: relative; }
+    
+    .section-header { text-align: center; margin-bottom: 4rem; position: relative; z-index: 2; }
+    .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .section-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Glow Border on Hover */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .card:hover::before { transform: scaleX(1); }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Icon Box */
+    .card-icon {
+      width: 70px; height: 70px;
+      background: #eff6ff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+      transition: 0.3s;
+    }
+    .card:hover .card-icon { background: var(--accent); }
+    .card-icon img { width: 40px; height: 40px; transition: 0.3s; }
+    .card:hover .card-icon img { filter: brightness(0) invert(1); }
+
+    .card h3 { font-size: 1.35rem; margin-bottom: 10px; }
+    .card h3 a { color: var(--primary); transition: 0.3s; }
+    .card:hover h3 a { color: var(--accent); }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      flex-grow: 1;
+    }
+
+    .card-link {
+      margin-top: auto;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card:hover .card-link i { transform: translateX(5px); transition: 0.3s; }
+
+    /* --- 5. FOOTER --- */
+    footer {
+      background: var(--primary);
+      color: white;
+      padding-top: 5rem;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      padding: 0 5% 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: #94a3b8; transition: 0.3s; font-size: 0.95rem; }
+    .footer-links a:hover { color: var(--accent); padding-left: 5px; }
+
+    .socials { display: flex; gap: 12px; margin-top: 20px; }
+    .social-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; transition: 0.3s;
+    }
+    .social-btn:hover { background: var(--accent); transform: translateY(-3px); }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 992px) {
+      nav { top: 0; width: 100%; border-radius: 0; }
+      nav.nav-hidden { transform: translateY(-100%); }
+      .hamburger { display: block; }
+      
+      .nav-menu {
+        position: fixed; top: 0; right: -100%; width: 85%; height: 100vh;
+        background: white; flex-direction: column; align-items: flex-start;
+        padding: 5rem 2rem; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      }
+      .nav-menu.active { right: 0; }
+      .nav-link { font-size: 1.1rem; width: 100%; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+      
+      /* Mobile Actions Logic */
+      .nav-actions { display: none; } 
+      .mobile-actions { display: flex; flex-direction: column; width: 100%; gap: 10px; margin-top: 20px; }
+      .mobile-actions .btn { width: 100%; justify-content: center; }
+
+      .hero h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay" onclick="closeMenu()" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; display:none;"></div>
+
+  <nav id="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/maha.png') }}" alt="MSTI Logo" />
+      <span>MSTI</span>
+    </div>
+
+    <ul class="nav-menu" id="nav-menu">
+      <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
+      
+      <li class="nav-item dropdown" onclick="toggleMobileDropdown(this)">
+        <a href="#courses" class="nav-link">Courses <i class="fas fa-chevron-down" style="font-size:0.7em; margin-left:4px;"></i></a>
+        <div class="dropdown-menu" style="position: absolute; top: 150%; left: 50%; transform: translateX(-50%); background: white; min-width: 220px; padding: 10px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: none; flex-direction: column;">
+           <a href="dhm.html" style="display:block; padding:10px; color:#475569; border-radius:8px; transition:0.3s;">Hospital Mgmt</a>
+           <a href="dgda.html" style="display:block; padding:10px; color:#475569; border-radius:8px; transition:0.3s;">General Duty</a>
+        </div>
+      </li>
+
+      <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+      <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+
+      <div class="mobile-actions" style="display:none;">
+        {% if session.username %}
+           <a href="/user_dashboard" class="btn btn-signup">{{ session.username }}</a>
+           <a href="/logout" class="btn btn-login">Logout</a>
+        {% else %}
+           <a href="/login" class="btn btn-login">Login</a>
+           <a href="/register" class="btn btn-signup">Get Started</a>
+        {% endif %}
+      </div>
+    </ul>
+
+    <div class="nav-actions">
+      {% if session.username %}
+        <a href="/user_dashboard" class="btn btn-signup"><i class="fas fa-user"></i> {{ session.username }}</a>
+        <a href="/logout" class="btn btn-login">Logout</a>
+      {% else %}
+        <a href="/login" class="btn btn-login">Log In</a>
+        <a href="/register" class="btn btn-signup">Get Started</a>
+      {% endif %}
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content" data-aos="fade-up">
+      <div class="badge">Admissions Open 2025</div>
+      <h1>Master Skills That<br><span>Define The Future</span></h1>
+      <p>Join Maharishi Skill Training Institute. Elite vocational training bridging the gap between education and employment.</p>
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="#courses" class="btn btn-signup" style="padding: 1rem 2.5rem;">Explore Courses</a>
+        <a href="#contact" class="btn btn-login" style="color: white; border: 1px solid rgba(255,255,255,0.3);">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="courses" class="section-padding">
+    <div class="section-header" data-aos="fade-up">
+      <h2>Professional Programs</h2>
+      <p>Select a diploma designed to get you hired immediately.</p>
+    </div>
+
+    <div class="course-grid">
+      
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/manager.png') }}" alt="DHM">
+        </div>
+        <h3><a href="dhm.html">Hospital Management</a></h3>
+        <p>Master administrative skills to run modern healthcare facilities efficiently.</p>
+        <a href="dhm.html" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="card" data-aos="fade-up" data-aos-delay="200">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/nurse.png') }}" alt="DGDA">
+        </div>
+        <h3><a href="{{ url_for('dgda_course') }}">General Duty Assistant</a></h3>
+        <p>Prepare for a compassionate career supporting patients and medical staff.</p>
+        <a href="{{ url_for('dgda_course') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="card" data-aos="fade-up" data-aos-delay="300">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/2248432.png') }}" alt="DXRT">
+        </div>
+        <h3><a href="{{ url_for('dxrt_course') }}">X-Ray Technology</a></h3>
+        <p>Technical expertise in radiology, imaging safety, and diagnostics.</p>
+        <a href="{{ url_for('dxrt_course') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+      
+      <div class="card" data-aos="fade-up">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/6401475.png') }}" alt="DMLTA">
+        </div>
+        <h3><a href="{{ url_for('dmlta_course') }}">Medical Lab Tech</a></h3>
+        <p>Proficiency in lab diagnostics, sampling, and report generation.</p>
+        <a href="{{ url_for('dmlta_course') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="card" data-aos="fade-up">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/4850909.png') }}" alt="DNA">
+        </div>
+        <h3><a href="{{ url_for('dna') }}">Nursing Assistance</a></h3>
+        <p>Learn essential patient care techniques for hospitals and home settings.</p>
+        <a href="{{ url_for('dna') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="card" data-aos="fade-up">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/13911032.png') }}" alt="DHMT">
+        </div>
+        <h3><a href="{{ url_for('dhmct') }}">Hotel Management</a></h3>
+        <p>Step into luxury hospitality with front-office and housekeeping skills.</p>
+        <a href="{{ url_for('dhmct') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+      
+       <div class="card" data-aos="fade-up">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/12404215.png') }}" alt="DPSM">
+        </div>
+        <h3><a href="{{ url_for('dpsm') }}">Pre-School Mgmt</a></h3>
+        <p>Empower the next generation with modern early childhood education strategies.</p>
+        <a href="{{ url_for('dpsm') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+       <div class="card" data-aos="fade-up">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/1683726.png') }}" alt="DCT">
+        </div>
+        <h3><a href="{{ url_for('dct') }}">Catering Tech</a></h3>
+        <p>Thrive in the food service industry with specialized catering skills.</p>
+        <a href="{{ url_for('dct') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+       <div class="card" data-aos="fade-up">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/6041242.png') }}" alt="DIFP">
+        </div>
+        <h3><a href="{{ url_for('difp') }}">Food Production</a></h3>
+        <p>Master culinary arts, kitchen operations, and international cuisines.</p>
+        <a href="{{ url_for('difp') }}" class="card-link">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h2>MSTI</h2>
+        <p style="margin-top:15px; opacity:0.8;">Providing industry-standard vocational education since 2010. Dedicated to skill development and employment generation.</p>
+        <div class="socials">
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/#courses">All Courses</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt" style="margin-right:10px; color:var(--accent);"></i> Chennai, India</li>
+          <li><i class="fas fa-phone" style="margin-right:10px; color:var(--accent);"></i> +91 98765 43210</li>
+          <li><i class="fas fa-envelope" style="margin-right:10px; color:var(--accent);"></i> info@maharishi.edu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Maharishi Skill Training Institute. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, offset: 100, once: true });
+
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      const overlay = document.querySelector('.overlay');
+      const body = document.body;
+      
+      menu.classList.toggle('active');
+      if(overlay) overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
+      
+      if(menu.classList.contains('active')) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = 'auto';
+      }
+    }
+    
+    function closeMenu() {
+      const menu = document.getElementById('nav-menu');
+      const overlay = document.querySelector('.overlay');
+      menu.classList.remove('active');
+      if(overlay) overlay.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Dropdown for Mobile
+    function toggleMobileDropdown(el) {
+      if(window.innerWidth <= 992) {
+        const submenu = el.querySelector('.dropdown-menu');
+        if(submenu.style.display === 'block') {
+          submenu.style.display = 'none';
+        } else {
+          submenu.style.display = 'block';
+        }
+      }
+    }
+
+    // Scroll Logic for Navbar
+    let lastScrollY = window.scrollY;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      
+      // Add 'scrolled' class
+      if (currentScrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      // Hide on Scroll Down, Show on Scroll Up (Desktop only)
+      if (window.innerWidth > 992) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          navbar.classList.add('nav-hidden');
+        } else {
+          navbar.classList.remove('nav-hidden');
+        }
+      }
+      lastScrollY = currentScrollY;
+    });
+  </script>
+</body>
+</html>

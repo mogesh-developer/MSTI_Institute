@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diploma in Catering Technology | MSTI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --accent-light: #60a5fa;
+            --success: #10b981;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+
+        .course-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(29, 78, 216, 0.95)),
+                        url('../static/images/bammer.jpg') center/cover;
+            color: white;
+            padding: 8rem 5% 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1), transparent);
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 5%;
+            z-index: 10;
+        }
+
+        .back-btn a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .back-btn a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+
+        .course-details {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            margin-bottom: 2rem;
+        }
+
+        .course-details h2 {
+            color: var(--primary);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .course-details h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 10px;
+        }
+
+        .course-details h3 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .course-details h3::before {
+            content: '▸';
+            color: var(--accent-light);
+            font-size: 1.6rem;
+        }
+
+        .course-details p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .course-details ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .course-details ul li {
+            padding: 0.8rem 1.2rem 0.8rem 3rem;
+            margin: 0.5rem 0;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.05), transparent);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text-main);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .course-details ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 1rem;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .course-details ul li:hover {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), transparent);
+            transform: translateX(5px);
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: white;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
+            background: linear-gradient(135deg, #1d4ed8, var(--primary));
+        }
+
+        .btn:not(.primary) {
+            background: white;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn:not(.primary):hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 6rem 4% 4rem; }
+            .back-btn { top: 1.5rem; left: 4%; }
+            main { padding: 3rem 4%; }
+            .course-details { padding: 2rem 1.5rem; }
+            .cta-buttons { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="course-container">
+        <div class="back-btn">
+            <a href="{{ url_for('home') }}"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+
+        <header>
+            <h1>Diploma in Catering Technology (DCT)</h1>
+            <p>Master the Art of Professional Catering & Food Service</p>
+        </header>
+
+        <main>
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>Duration</h4>
+                    <p>1 Year</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Eligibility</h4>
+                    <p>10th Standard</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-certificate"></i>
+                    <h4>Certification</h4>
+                    <p>Diploma Certificate</p>
+                </div>
+            </div>
+
+            <section class="course-details">
+                <h2>Course Overview</h2>
+                <p>Focus on the essentials of catering, from kitchen management to food safety and event catering. This comprehensive program is ideal for those entering the dynamic food service industry with professional skills.</p>
+
+                <h3>Course Modules</h3>
+                <ul>
+                    <li>Commercial Kitchen Operations</li>
+                    <li>Food Hygiene & Sanitation</li>
+                    <li>Banquet & Event Catering</li>
+                    <li>Food Costing & Budgeting</li>
+                    <li>Customer Service Skills</li>
+                    <li>Menu Planning & Development</li>
+                </ul>
+
+                <h3>Career Opportunities</h3>
+                <ul>
+                    <li>Catering Supervisor</li>
+                    <li>Kitchen Manager</li>
+                    <li>Event Food Coordinator</li>
+                    <li>Banquet Operations Manager</li>
+                    <li>Food Service Consultant</li>
+                </ul>
+            </section>
+
+            <section class="cta-buttons">
+                <form action="{{ url_for('apply_course') }}" method="POST" style="display: inline;">
+                    <input type="hidden" name="course_title" value="DCT - Catering Technology">
+                    <button type="submit" class="btn primary">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                </form>
+                <a href="{{ url_for('home') }}" class="btn">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Maharishi Skill Training Institute. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
